@@ -4,41 +4,20 @@ A simple password manager application built with React, Vite, and MongoDB. This 
 
 ## Features
 
-- Secure password storage
+- Secure password Local storage and mongoDB
 - User-friendly interface
-- Built with modern web technologies
 
 ## Tech Stack
 
 - **Frontend:** React, Vite, Tailwind CSS
 - **Backend:** MongoDB
 
-## Installation
+## Journey
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd PasswordManager
-   ```
+### 9/12/25
+![Preview 9 Dec](src/assets/2.png)
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
+### 9/12/25 
+![Preview 9 Dec](src/assets/1.pg)
 
-3. Start the development server:
-   ```
-   npm run dev
-   ```
 
-## Usage
-
-Open your browser and navigate to `http://localhost:5173` to use the password manager.
-
-## Contributing
-
-Feel free to contribute by opening issues or submitting pull requests.
-
-## License
-
-This project is licensed under the MIT License.
