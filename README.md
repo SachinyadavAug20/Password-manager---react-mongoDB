@@ -18,6 +18,6 @@ A simple password manager application built with React, Vite, and MongoDB. This 
 ![Preview 9 Dec](src/assets/2.png)
 
 ### 9/12/25 
-![Preview 9 Dec](src/assets/1.pg)
+![Preview 9 Dec](src/assets/1.png)
 
 
