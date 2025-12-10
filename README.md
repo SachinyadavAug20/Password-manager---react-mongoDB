@@ -14,6 +14,9 @@ A simple password manager application built with React, Vite, and MongoDB. This 
 
 ## Journey
 
+### 10/12/25
+![Preview 10 Dec](src/assets/3.gif)
+
 ### 9/12/25
 ![Preview 9 Dec](src/assets/2.png)
 
