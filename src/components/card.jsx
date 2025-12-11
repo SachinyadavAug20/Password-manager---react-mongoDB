@@ -1,36 +1,125 @@
-
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
-const Card = ({ siteName, siteNote, siteID, sitePassword }) => {
+const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray,id, passwordArray }) => {
     const [showPassword, setShowPassword] = useState(false);
+    const copyText = (sitePassword) => {
+        toast.success('Copied to clipboard !', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });
+        navigator.clipboard.writeText(sitePassword)
+    }
+    const handleDelete = () => {
+
+    }
+    const handleEdit = () => {
+
+    }
 
     return (
-        <div className="bg-slate-900 grid grid-rows-1 grid-cols-2 justify-around ml-2 mr-10 border-2 border-blue-500 rounded-lg p-4 my-5 m-2 text-white hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 relative">
-            <div className="flex justify-between items-start mb-3">
-                <div>
-                    <div className="flex justify-center items-center gap-2">
-                        <h3 className="text-blue-400 text-xl font-semibold">Site Name : <a className="capitalize " href={"https://"+siteName} target="_blank">{siteName}</a></h3> {/* buz Google.com and google.com are same*/}
+        <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            // transition="Bounce"
+            />
+            <div className="bg-slate-900 flex flex-col sm:grid sm:grid-rows-1 sm:grid-cols-5 justify-around mx-2 sm:ml-2 sm:mr-10 border-2 border-blue-500 rounded-lg p-4 my-4 text-white hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 relative">
+
+                {/* Left Column - Site Info */}
+                <div className="flex flex-col justify-between items-start mb-4 sm:mb-3">
+                    <div>
+                        <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center gap-1 sm:gap-2 mb-2">
+                            <h3 className="text-blue-400 text-lg sm:text-xl font-semibold">Site Name:</h3>
+                            <a
+                                className="capitalize text-white text-base sm:text-lg break-all hover:underline"
+                                href={"https://" + siteName}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {siteName}
+                            </a>
+                        </div>
+                        <p className="text-gray-300 text-sm">
+                            <span className="text-blue-400">Note:</span> {siteNote}
+                        </p>
                     </div>
-                    <p className="text-gray-300 text-sm">Note : {siteNote}</p>
+                </div>
+
+                {/* Right Column - ID and Password */}
+                <div className="space-y-3 col-span-3 sm:space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
+                        <span className="text-blue-400 font-semibold mr-2 text-sm sm:text-base">ID:</span>
+                        <span className="text-white text-sm sm:text-base break-all">{siteID}</span>
+                    </div>
+                    <div className="relative flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
+                        <div className="flex items-center">
+                            <span className="text-blue-400 font-semibold mr-2 text-sm sm:text-base">Password:</span>
+                            <span className="text-white mr-2 text-sm sm:text-base break-all">
+                                {showPassword ? sitePassword : "*********"}
+                            </span>
+                        </div>
+                        <div className="flex justify-center items-center gap-3">
+                            <div className="cursor-pointer w-full sm:w-auto mt-1 sm:mt-0" onClick={() => setShowPassword(!showPassword)}>
+                                {showPassword ? <lord-icon
+                                    src="https://cdn.lordicon.com/knitbwfa.json"
+                                    trigger="hover"
+                                    state="hover-look-around"
+                                >
+                                </lord-icon> : <lord-icon
+                                    src="https://cdn.lordicon.com/knitbwfa.json"
+                                    state="hover-lashes"
+                                    trigger="hover"
+                                >
+                                </lord-icon>}
+                            </div>
+                            <div className="cursor-pointer w-full sm:w-auto mt-1 sm:mt-0" onClick={() => { copyText(sitePassword) }}>
+                                <lord-icon
+                                    src="https://cdn.lordicon.com/tbabdzcy.json"
+                                    trigger="hover">
+                                </lord-icon>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="flex gap-1 flex-col">
+                    <div onClick={()=>{handleEdit}} className="cursor-pointer flex justify-center items-center py-0.5 border-blue-800 border-2 rounded-xl bg-blue-400 ">
+                        <span>Edit password</span>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/cbtlerlm.json"
+                            trigger="hover"
+                            state="hover-line"
+                            stroke="bold"
+                        >
+                        </lord-icon>
+                    </div>
+                    <div onClick={()=>{handleDelete}} className="cursor-pointer flex justify-center items-center py-0.5 border-red-800 border-2 rounded-xl bg-red-400 ">
+                        <span>Delete Password</span>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/sxhqklqh.json"
+                            trigger="hover"
+                            stroke="bold"
+                        >
+                        </lord-icon>
+                    </div>
                 </div>
             </div>
-            <div className="space-y-2">
-                <div className="flex items-center">
-                    <span className="text-blue-400 font-semibold mr-2">ID:</span>
-                    <span className="text-white">{siteID}</span>
-                </div>
-                <div className="flex items-center">
-                    <span className="text-blue-400 font-semibold mr-2">Password:</span>
-                    <span className="text-white mr-2">{showPassword ? sitePassword : "*********"}</span>
-                    <button
-                        className="px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white text-sm rounded transition-colors duration-200"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >
-                        {showPassword ? 'Hide' : 'Show'}
-                    </button>
-                </div>
-            </div>
-        </div>
+        </>
     );
 };
 
