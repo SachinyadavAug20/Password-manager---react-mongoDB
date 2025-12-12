@@ -1,10 +1,53 @@
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 
-const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray,id, passwordArray }) => {
+const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray, id, passwordArray, SetSiteID, SetSiteName, SetSiteNote, SetSitePassword }) => {
     const [showPassword, setShowPassword] = useState(false);
     const copyText = (sitePassword) => {
-        toast.success('Copied to clipboard !', {
+        navigator.clipboard.writeText(sitePassword)
+    }
+    const handleDelete = (uuid) => {
+
+        if (confirm("Are you sure ?")) {
+            console.log("deleting uuid", uuid);
+            setPasswordArray(passwordArray.filter((item) => {
+                return item.id != uuid;
+            }))
+            localStorage.setItem("Passwords", JSON.stringify(passwordArray.filter((item) => {
+                return item.id != uuid;
+            })))
+            toast.success(`Deleted credential of ${siteName}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
+        else {
+            toast.success('Operation terminated, password is save !', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
+    }
+    const handleEdit = (uuid) => {
+        SetSitePassword(sitePassword)
+        SetSiteNote(siteNote)
+        SetSiteName(siteName)
+        SetSiteID(siteID)
+        // handleDelete(uuid);
+        console.log("editing uuid", uuid);
+        toast.success(`Editing credential of ${siteName}`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -14,13 +57,6 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray,id, p
             progress: undefined,
             theme: "dark",
         });
-        navigator.clipboard.writeText(sitePassword)
-    }
-    const handleDelete = () => {
-
-    }
-    const handleEdit = () => {
-
     }
 
     return (
@@ -38,13 +74,13 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray,id, p
                 theme="light"
             // transition="Bounce"
             />
-            <div className="bg-slate-900 flex flex-col sm:grid sm:grid-rows-1 sm:grid-cols-5 justify-around mx-2 sm:ml-2 sm:mr-10 border-2 border-blue-500 rounded-lg p-4 my-4 text-white hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 relative">
+            <div className="bg-slate-900 snap-center flex flex-col sm:grid sm:grid-rows-1 sm:grid-cols-5 justify-around mx-2 sm:ml-2 sm:mr-10 border-2 border-blue-500 rounded-lg p-2 sm:p-4 my-2 sm:my-4 text-white hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-200 relative">
 
                 {/* Left Column - Site Info */}
                 <div className="flex flex-col justify-between items-start mb-4 sm:mb-3">
                     <div>
                         <div className="flex flex-col sm:flex-row sm:justify-center sm:items-center gap-1 sm:gap-2 mb-2">
-                            <h3 className="text-blue-400 text-lg sm:text-xl font-semibold">Site Name:</h3>
+                            <h3 className="text-blue-400 text-base sm:text-lg font-semibold">Site Name:</h3>
                             <a
                                 className="capitalize text-white text-base sm:text-lg break-all hover:underline"
                                 href={"https://" + siteName}
@@ -61,7 +97,7 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray,id, p
                 </div>
 
                 {/* Right Column - ID and Password */}
-                <div className="space-y-3 col-span-3 sm:space-y-2">
+                <div className="space-y-2 sm:space-y-3 col-span-3">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
                         <span className="text-blue-400 font-semibold mr-2 text-sm sm:text-base">ID:</span>
                         <span className="text-white text-sm sm:text-base break-all">{siteID}</span>
@@ -98,7 +134,7 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray,id, p
                     </div>
                 </div>
                 <div className="flex gap-1 flex-col">
-                    <div onClick={()=>{handleEdit}} className="cursor-pointer flex justify-center items-center py-0.5 border-blue-800 border-2 rounded-xl bg-blue-400 ">
+                    <div onClick={() => { handleEdit(id) }} className="cursor-pointer flex justify-center items-center py-0.5 border-blue-800 border-2 rounded-xl bg-blue-400 ">
                         <span>Edit password</span>
                         <lord-icon
                             src="https://cdn.lordicon.com/cbtlerlm.json"
@@ -108,7 +144,7 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray,id, p
                         >
                         </lord-icon>
                     </div>
-                    <div onClick={()=>{handleDelete}} className="cursor-pointer flex justify-center items-center py-0.5 border-red-800 border-2 rounded-xl bg-red-400 ">
+                    <div onClick={() => { handleDelete(id) }} className="cursor-pointer flex justify-center items-center py-0.5 border-red-800 border-2 rounded-xl bg-red-400 ">
                         <span>Delete Password</span>
                         <lord-icon
                             src="https://cdn.lordicon.com/sxhqklqh.json"
