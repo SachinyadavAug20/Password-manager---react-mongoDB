@@ -3,12 +3,12 @@ const Navbar = () => {
     return (
         <nav className="flex flex-col sm:flex-row gap-0 bg-transparent hover:border-b-8 border-green-500  rounded-b-2xl">
             <div className="flex w-full">
-                <div className="w-full sm:w-fit text-nowrap flex justify-center border-2 hover:border-b-0 hover:border-l-4 sm:hover:border-l-8 transition-all duration-100 cursor-pointer border-r-0 border-b-2 border-green-500 LOGO ml-0 rounded-bl-2xl px-3 sm:px-5 py-1 sm:py-2 font-semibold text-lg sm:text-xl md:text-3xl bg-blue-500 border-t-gray-600 text-white">
+                <div className="w-full sm:w-fit text-nowrap flex justify-center border-2 hover:border-b-0 hover:border-l-4 sm:hover:border-l-8 transition-all duration-100 cursor-pointer border-r-0 border-b-2 border-green-500 LOGO ml-0 rounded-bl-2xl px-3 sm:px-5 py-1 sm:py-2 font-semibold text-xl sm:text-xl md:text-3xl bg-blue-500 border-t-gray-600 text-white">
                     <a href="/">
-                        <span className="text-green-400 text-lg sm:text-xl md:text-4xl"> &lt;</span>
+                        <span className="text-green-400  sm:text-xl md:text-4xl"> &lt;</span>
                         Pass
-                        <span className="text-green-400 text-lg sm:text-xl md:text-3xl">ly</span>
-                        <span className="text-green-400 text-lg sm:text-xl md:text-4xl"> /&gt;</span>
+                        <span className="text-green-400  sm:text-xl md:text-3xl">ly</span>
+                        <span className="text-green-400 sm:text-xl md:text-4xl"> /&gt;</span>
                     </a>
                 </div>
                 <ul className="text-white bg-blue-500 w-full px-3 py-2 sm:py-4 border-green-500 border-b-2 rounded-bl-none relative font-semibold hover:font-bold hover:border-b-0 border-r-2 transition-all duration-100 hover:border-r-8 border-t-gray-600  border-t-2 box-border mr-0 rounded-b-2xl flex flex-col sm:flex-row gap-4 sm:gap-12 text-lg sm:text-xl list-none">

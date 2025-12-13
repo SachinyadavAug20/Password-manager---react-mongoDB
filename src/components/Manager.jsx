@@ -13,12 +13,18 @@ const Manager = () => {
     const password_text_box = useRef();
     const [passwordType, setPasswordType] = useState("password")
     const [passwordArray, setPasswordArray] = useState([])
+    const getpasswords = async () => {
+        let req = await fetch("http://localhost:3000/");
+        let passwords = await req.json();
+        setPasswordArray(passwords)
+    }
     useEffect(() => {
         //Load passwords from local storage
-        let localstoragePassword = localStorage.getItem("Passwords");
-        if (localstoragePassword) {
-            setPasswordArray(JSON.parse(localstoragePassword))
-        }
+        // let localstoragePassword = localStorage.getItem("Passwords");
+        // if (localstoragePassword) {
+        //     setPasswordArray(JSON.parse(localstoragePassword))
+        // }
+        getpasswords();
     }, [])
     useEffect(() => {
         if (showpassword) {
@@ -27,19 +33,16 @@ const Manager = () => {
             setPasswordType("password");
         }
     }, [showpassword])
-    // useEffect(() => {
-    //     localStorage.setItem("Passwords", JSON.stringify(passwordArray))
-    // }, [passwordArray])
 
+    let formData = {
+        "Site": siteName,
+        "Note": siteNote,
+        "ID": siteID,
+        "Password": sitePassword,
+        "id": uuidv4(),
+    }
+    const savePassword = async () => {
 
-    const savePassword = () => {
-        let formData = {
-            "Site": siteName,
-            "Note": siteNote,
-            "ID": siteID,
-            "Password": sitePassword,
-            "id": uuidv4(),
-        }
         if (sitePassword.length < 8) {
             toast.error('Invalid/Incomplete crenditials !', {
                 position: "top-right",
@@ -65,7 +68,6 @@ const Manager = () => {
             });
         }
         else {
-            setPasswordArray([...passwordArray, formData]);
             toast.success('Suceessfully saved !', {
                 position: "top-right",
                 autoClose: 5000,
@@ -76,7 +78,15 @@ const Manager = () => {
                 progress: undefined,
                 theme: "dark",
             });
-            localStorage.setItem("Passwords", JSON.stringify([...passwordArray, formData]))
+            setPasswordArray([...passwordArray, formData]);
+            await fetch("http://localhost:3000/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...formData })
+            });
+
+            // localStorage.setItem("Passwords", JSON.stringify([...passwordArray, formData]))
+            // setPasswordArray([...passwordArray, formData]);
             // console.log([...passwordArray, formData]);
 
             SetSiteNote("")
@@ -135,14 +145,14 @@ const Manager = () => {
                             <span className="text-black absolute right-1 cursor-pointer" onClick={() => { setShowpassword(!showpassword) }}>
 
                                 {showpassword ?
-                                     <lord-icon
+                                    <lord-icon
                                         src="https://cdn.lordicon.com/knitbwfa.json"
                                         trigger="hover"
                                         stroke="bold"
                                         className="w-[30px] sm:w-[40px] md:w-[50px] pt-1"
                                     >
                                     </lord-icon> :
-                                     <lord-icon
+                                    <lord-icon
                                         src="https://cdn.lordicon.com/knitbwfa.json"
                                         trigger="hover"
                                         state="hover-cross"
@@ -171,7 +181,7 @@ const Manager = () => {
                     {/* here will be all password cards */}
                     <div className="w-full snap-y snap-proximity overflow-auto h-[89%]">
                         {passwordArray.map((e, index) => {
-                            return <Card key={index} passwordArray={passwordArray} setPasswordArray={setPasswordArray} id={e.id} sitePassword={e.Password} siteName={e.Site} siteNote={e.Note} siteID={e.ID} SetSiteID={SetSiteID} SetSiteName={SetSiteName} SetSiteNote={SetSiteNote} SetSitePassword={SetSitePassword} />
+                            return <Card key={index} formdata={formData} passwordArray={passwordArray} setPasswordArray={setPasswordArray} id={e.id} sitePassword={e.Password} siteName={e.Site} siteNote={e.Note} siteID={e.ID} SetSiteID={SetSiteID} SetSiteName={SetSiteName} SetSiteNote={SetSiteNote} SetSitePassword={SetSitePassword} />
                         })}
                     </div>
                 </div>

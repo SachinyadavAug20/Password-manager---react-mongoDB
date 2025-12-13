@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 
-const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray, id, passwordArray, SetSiteID, SetSiteName, SetSiteNote, SetSitePassword }) => {
+const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray, id, formdata, passwordArray, SetSiteID, SetSiteName, SetSiteNote, SetSitePassword }) => {
     const [showPassword, setShowPassword] = useState(false);
     const copyText = (sitePassword) => {
         navigator.clipboard.writeText(sitePassword)
@@ -17,16 +17,17 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray, id, 
         });
 
     }
-    const handleDelete = (uuid) => {
+    const handleDelete = async (uuid) => {
 
         if (confirm("Are you sure ?")) {
             console.log("deleting uuid", uuid);
             setPasswordArray(passwordArray.filter((item) => {
                 return item.id != uuid;
             }))
-            localStorage.setItem("Passwords", JSON.stringify(passwordArray.filter((item) => {
-                return item.id != uuid;
-            })))
+            await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: uuid }) });
+            // localStorage.setItem("Passwords", JSON.stringify(passwordArray.filter((item) => {
+            //     return item.id != uuid;
+            // })))
             toast.success(`Deleted credential of ${siteName}`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -51,7 +52,7 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray, id, 
             });
         }
     }
-    const handleEdit = (uuid) => {
+    const handleEdit = async (uuid) => {
         SetSitePassword(sitePassword)
         SetSiteNote(siteNote)
         SetSiteName(siteName)
@@ -59,9 +60,10 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray, id, 
         setPasswordArray(passwordArray.filter((item) => {
             return item.id != uuid;
         }))
-        localStorage.setItem("Passwords", JSON.stringify(passwordArray.filter((item) => {
-            return item.id != uuid;
-        })))
+        // localStorage.setItem("Passwords", JSON.stringify(passwordArray.filter((item) => {
+        //     return item.id != uuid;
+        // })))
+        await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: uuid }) });
         toast.success(`Deleted credential of ${siteName}`, {
             position: "top-right",
             autoClose: 5000,
@@ -136,7 +138,7 @@ const Card = ({ siteName, siteNote, siteID, sitePassword, setPasswordArray, id, 
                             <div className="flex items-center">
                                 <span className="text-blue-400 font-semibold mr-2 text-xs sm:text-sm md:text-base">Password:</span>
                                 <span className="text-white mr-2 text-xs sm:text-sm md:text-base break-all">
-                                    {showPassword ? sitePassword : "*********"}
+                                    {showPassword ? sitePassword : "*".repeat(sitePassword.length + 4)}
                                 </span>
                             </div>
                             <div className="flex justify-center items-center gap-3">
